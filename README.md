@@ -8,8 +8,8 @@ Version
 
 1.0.0
 
-    - Detailed description coming soon...
-    - [Homepage]
+- Detailed description coming soon...
+- [Homepage]
 
 <p>
     <img src = "wccjs1.JPG" width="100%"/>
