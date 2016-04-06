@@ -1,0 +1,29 @@
+{
+    "manifest_version": 2,
+    "author": "Tóth András",
+    "name": "WebCodeCamJS Extension",
+    "short_name": "WCCJSEXT",
+    "description": "This extension will able to decode qr and barcodes.",
+    "version": "1.0.0",
+    "options_page": "options.html",
+    "browser_action": {
+        "default_icon": "css/images/icon16-gray.png",
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "16": "css/images/icon16.png",
+        "48": "css/images/icon48.png",
+        "128": "css/images/icon128.png"
+    },
+    "content_scripts": [{
+        "matches": ["http://*/*", "https://*/*"],
+        "js": ["js/content.js"],
+        "run_at": "document_end"
+    }],
+    "background": {
+        "page": "background.html",
+        "script": "js/DecoderWorker.js"
+    },
+    "permissions": ["tabs", "<all_urls>", "storage", "debugger"],
+    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDsDApubb73tPfYlNIFxDu3K3/EHgV6/YOJXJkld1OZ20jW/cOht1j0NggnXhQYuu1mXFUufud4I2N7b5ydyg09gcM9Va3Zk17RhNV9smbPHOd4XlzJeXifX/9MgHPu4FzCen3CiSXsOeAELJIXEuT28xICriuUko/rNPwGeIB9VwIDAQAB"
+}
