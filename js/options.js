@@ -22,12 +22,11 @@
                     maxHeight: 720
                 },
                 optional: [{
-                    deviceId: document.querySelector('select').value.replace(/\s/g, '')
+                    sourceId: document.querySelector('select').value
                 }]
             },
             audio: false
         };
-        console.log(settings);
         return settings;
     }
 

@@ -51,7 +51,7 @@ var WebCodeCamJS = function(element) {
                         maxHeight: 720
                     },
                     optional: [{
-                        deviceId: true
+                        sourceId: true
                     }]
                 },
                 audio: false
@@ -430,7 +430,7 @@ var WebCodeCamJS = function(element) {
         if (device.kind === 'video' || device.kind === 'videoinput') {
             var face = (!device.facing || device.facing === '') ? 'unknown' : device.facing;
             var text = device.label || 'camera ' + (videoSelect.length + 1) + ' (facing: ' + face + ')';
-            html('<option value="' + (device.deviceId || device.id) + '">' + text + '</option>', videoSelect);
+            html('<option value="' + (device.id || device.deviceId) + '">' + text + '</option>', videoSelect);
         }
     }
 

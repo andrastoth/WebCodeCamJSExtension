@@ -382,3 +382,7 @@ h1 .red-icon {
     line-height: 1;
     position: fixed;
 }
+
+#test-canvas{
+    background-color: #272822;
+}

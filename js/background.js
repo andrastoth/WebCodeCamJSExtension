@@ -7,7 +7,7 @@
             if (i.settings === undefined) {
                 chrome.storage.sync.set({
                     settings: {
-                        Resultfunction: ['var focused = document.querySelector(":focus");console.log(focused);', 
+                        Resultfunction: ['var focused = document.querySelector(":focus");', 
                                          'if (focused && ["input", "textarea"].indexOf(focused.tagName.toLowerCase()) !== -1){', 
                                          '    focused.value = res.code;', '}'].join('\n'),
                         autoBrightnessValue: 0,
@@ -21,7 +21,7 @@
                                     maxHeight: 720
                                 },
                                 optional: [{
-                                    deviceId: true
+                                    sourceId: true
                                 }]
                             },
                             audio: 0
