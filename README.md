@@ -1,7 +1,9 @@
 # WebCodeCamJS Chrome Extension
 
-    The popular [WebCodeCamJS] as a chrome extension.
-    Use WebCodeCamJS on ewery web pages with minimal coding.
+The popular [WebCodeCamJS] as a chrome extension.<br>
+Use WebCodeCamJS on ewery web pages with minimal coding.<br>
+
+[chrome web store]
 
 Version
 ----
@@ -48,3 +50,4 @@ http://atandrastoth.co.uk/
 [WebCodeCamJS]:https://andrastoth.github.io/webcodecamjs/
 [DecoderWorker.js]:https://github.com/EddieLa/BarcodeReader
 [qrcodelib.js]:https://github.com/LazarSoft/jsqrcode
+[chrome web store]:https://chrome.google.com/webstore/detail/webcodecamjs-extension/iakljebmlbbedbflhifhmkbfcbpkippl
