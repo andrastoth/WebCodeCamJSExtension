@@ -14,18 +14,19 @@ Version
 - [Homepage]
 - [WebCodeCamJS]
 
+----
 <p>
     <img src = "wccjs1.JPG" width="100%"/>
 </p>
-
+----
 <p>
     <img src = "wccjs2.JPG" width="100%"/>
 </p>
-
+----
 <p>
     <img src = "wccjs3.JPG" width="100%"/>
 </p>
-
+----
 <p>
     <img src = "wccjs4.JPG" width="100%"/>
 </p>
