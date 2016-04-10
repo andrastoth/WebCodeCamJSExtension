@@ -32,7 +32,7 @@
 
     function loadSettings() {
         var dataCells = document.querySelectorAll('[data-settings="true"] td');
-        chrome.storage.sync.get('settings', function(i) {
+        chrome.storage.local.get('settings', function(i) {
             if (i.settings && Object.keys(i.settings).length) {
                 [].forEach.call(document.querySelectorAll('[data-settings="false"] th'), function(s, indexTh) {
                     [].find.call(document.querySelectorAll('[data-settings="true"] td'), function(i, indexTd) {
@@ -46,7 +46,7 @@
     }
 
     function saveSettings() {
-        chrome.storage.sync.set({
+        chrome.storage.local.set({
             'settings': getSettings()
         }, loadSettings);
     }

@@ -2,11 +2,11 @@
     'use strict';
     var enable = document.getElementById('enable'),
         settings = document.getElementById('settings'),
-        state = false;
+        viewFinderId = false;
     chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-        if (request.order == 'decoderCameraClosed') {
-            state = false;
-            changeState();
+        if (request.order == 'viewFinderClosed') {
+            viewFinderId = false;
+            changeState(viewFinderId);
         }
     }, false);
     enable.addEventListener('click', setState, false);
@@ -30,9 +30,9 @@
     }
 
     function setState() {
-        if (!state) {
+        if (!viewFinderId) {
             chrome.windows.create({
-                url: "camera.html",
+                url: "viewFinder.html",
                 type: "popup",
                 top: screen.height - 5,
                 left: screen.width - 5,
@@ -40,17 +40,19 @@
                 height: 200
             }, function(w) {
                 chrome.extension.sendMessage({
-                    order: 'initDecoderCamera',
-                    cameraWindowID: w.id
+                    order: 'initViewFinder',
+                    viewFinderWindowID: w.id
                 }, function(req) {
-                    changeState(true);
+                    viewFinderId = w.id;
+                    changeState(viewFinderId);
                 });
             });
-        } else if (state) {
+        } else if (viewFinderId) {
             chrome.extension.sendMessage({
-                order: 'closeDecoderCamera'
+                order: 'closeDecoderviewFinder'
             }, function(req) {
-                changeState(false);
+                viewFinderId = false;
+                changeState(viewFinderId);
             });
         }
     }
@@ -66,13 +68,18 @@
     }
 
     function saveIsRunning(st) {
-        state = st;
-        chrome.storage.sync.set({
+        viewFinderId = st;
+        chrome.storage.local.set({
             'isRunning': st
         }, null);
     }
-    chrome.storage.sync.get('isRunning', function(i) {
-        state = i.isRunning;
-        changeState(state);
+    chrome.storage.local.get('isRunning', function(i) {
+        chrome.windows.getAll(function(wins) {
+            var find = wins.find(function(win) {
+                return i.isRunning === win.id;
+            });
+            viewFinderId = find ? find.id : false;
+            changeState(viewFinderId);
+        });
     });
 })();

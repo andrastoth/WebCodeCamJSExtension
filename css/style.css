@@ -246,14 +246,14 @@ h1 .red-icon {
     height: 48px;
 }
 
-.camera-div {
+.view-finder-div {
     width: 100%;
     position: fixed;
     height: 100%;
     background-color: black;
 }
 
-.camera-div canvas {
+.view-finder-div canvas {
     left: 0;
     top: 0;
     position: fixed;
@@ -295,16 +295,14 @@ h1 .red-icon {
     border-right: solid red 5px;
 }
 
-.play {
+.play, .stop, .pause, .link, .link-active {
     cursor: pointer;
     position: fixed;
-    border: 3px solid green;
     width: 36px;
     height: 36px;
     background-color: transparent;
     border-radius: 50%;
     bottom: 5px;
-    left: calc(50% - 48px);
 }
 
 .play:before {
@@ -318,16 +316,14 @@ h1 .red-icon {
     border-bottom: 8px solid transparent;
 }
 
+.play {
+    border: 3px solid green;
+    left: calc(50% - 70px);
+}
+
 .pause {
-    cursor: pointer;
-    position: fixed;
     border: 3px solid orange;
-    width: 36px;
-    height: 36px;
-    background-color: transparent;
-    border-radius: 50%;
-    bottom: 5px;
-    left: calc(50% - 48px);
+    left: calc(50% - 70px);
 }
 
 .pause:before {
@@ -351,15 +347,8 @@ h1 .red-icon {
 }
 
 .stop {
-    cursor: pointer;
-    position: fixed;
     border: 3px solid red;
-    width: 36px;
-    height: 36px;
-    background-color: transparent;
-    border-radius: 50%;
-    bottom: 5px;
-    left: calc(50% + 5px);
+    left: calc(50% - 20px);
 }
 
 .stop:before {
@@ -367,6 +356,38 @@ h1 .red-icon {
     height: 15px;
     background: red;
     position: absolute;
+    content: "";
+    top: 11px;
+    left: 11px;
+}
+
+.link {
+    border: 3px solid gray;
+    left: calc(50% + 30px);
+}
+
+.link:before {
+    width: 15px;
+    height: 15px;
+    background: gray;
+    position: absolute;
+    border-radius: 50%;
+    content: "";
+    top: 11px;
+    left: 11px;
+}
+
+.link-active {
+    border: 3px solid #006FFF;
+    left: calc(50% + 30px);
+}
+
+.link-active:before {
+    width: 15px;
+    height: 15px;
+    background: #006FFF;
+    position: absolute;
+    border-radius: 50%;
     content: "";
     top: 11px;
     left: 11px;
@@ -383,6 +404,6 @@ h1 .red-icon {
     position: fixed;
 }
 
-#test-canvas{
+#test-canvas {
     background-color: #272822;
 }

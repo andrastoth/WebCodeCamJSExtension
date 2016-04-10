@@ -1,10 +1,12 @@
 (function() {
     'use strict';
-    var camera = document.querySelector('#camera'),
+    var viewFinder = document.querySelector('#view-finder'),
         scannerLaser = document.querySelectorAll('.scanner-laser'),
         playPause = document.querySelector('#play-pause'),
         playStop = document.querySelector('#play-stop'),
         resultText = document.querySelector('.result-text'),
+        openLink = document.querySelector('#open-link'),
+        resultOrder = 'getResultFromDecoder',
         decoder = null;
 
     function fadeOut(el, v) {
@@ -35,8 +37,8 @@
     }
 
     function zoomCanvasToWindow() {
-        camera.style.zoom = window.innerWidth / camera.width;
-        camera.style.top = ((window.innerHeight - (camera.height * camera.style.zoom)) / 2 / camera.style.zoom).toString().concat('px');
+        viewFinder.style.zoom = window.innerWidth / viewFinder.width;
+        viewFinder.style.top = ((window.innerHeight - (viewFinder.height * viewFinder.style.zoom)) / 2 / viewFinder.style.zoom).toString().concat('px');
     }
 
     function playListener(e) {
@@ -56,11 +58,13 @@
     }
 
     function showAndSendResultToExtension(res, i) {
-        chrome.extension.sendMessage({
-            order: 'getResultFromDecoder',
-            func: i.settings.Resultfunction,
-            result: res
-        }, null);
+        if (resultOrder != 'openResultInNewWindow' || isValidURL(res.code)) {
+            chrome.extension.sendMessage({
+                order: resultOrder,
+                func: i.settings.Resultfunction,
+                result: res
+            }, null);
+        }
         resultText.textContent = res.format + ": " + res.code;
         setTimeout(function() {
             resultText.textContent = '';
@@ -72,20 +76,36 @@
             }, 300);
         });
     }
+
+    function openLinkChange() {
+        if (openLink.className == 'link') {
+            openLink.className = 'link-active';
+            resultOrder = 'openResultInNewWindow';
+        } else {
+            openLink.className = 'link';
+            resultOrder = 'getResultFromDecoder';
+        }
+    }
     window.addEventListener('resize', zoomCanvasToWindow, false);
     playPause.addEventListener('click', playListener, false);
     playStop.addEventListener('click', stopListener, false);
+    openLink.addEventListener('click', openLinkChange, false);
     chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-        if (request.order == 'closeDecoderCamera') {
+        if (request.order == 'closeDecoderviewFinder') {
             sendResponse(true);
             window.close();
         }
     }, false);
-    chrome.storage.sync.get('settings', function(i) {
-        decoder = new WebCodeCamJS(camera).init(i.settings).play();
+    chrome.storage.local.get('settings', function(i) {
+        decoder = new WebCodeCamJS(viewFinder).init(i.settings).play();
         window.resizeTo(decoder.options.width + 16, decoder.options.height + 35);
         decoder.options.resultFunction = function(res) {
             setTimeout(showAndSendResultToExtension.bind(null, res, i), 0);
         }
     });
+
+    function isValidURL(str) {
+        var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+        return regex.test(str);
+    }
 })();

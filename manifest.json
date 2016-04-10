@@ -4,10 +4,10 @@
     "name": "WebCodeCamJS Extension",
     "short_name": "WCCJSEXT",
     "description": "This extension will able to decode qr and barcodes.",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "options_page": "options.html",
     "browser_action": {
-        "default_icon": "css/images/icon16-gray.png",
+        "default_icon": "css/images/icon48-gray.png",
         "default_popup": "popup.html"
     },
     "icons": {
@@ -24,6 +24,5 @@
         "page": "background.html",
         "script": "js/DecoderWorker.js"
     },
-    "permissions": ["tabs", "<all_urls>", "storage", "debugger"],
-    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDsDApubb73tPfYlNIFxDu3K3/EHgV6/YOJXJkld1OZ20jW/cOht1j0NggnXhQYuu1mXFUufud4I2N7b5ydyg09gcM9Va3Zk17RhNV9smbPHOd4XlzJeXifX/9MgHPu4FzCen3CiSXsOeAELJIXEuT28xICriuUko/rNPwGeIB9VwIDAQAB"
+    "permissions": ["tabs", "<all_urls>", "storage"]
 }

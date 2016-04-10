@@ -796,7 +796,7 @@ function BinaryConfiguration(binaryString, type) {
             binTemp = [];
             for (var i = 0; i < totalBars; i++) {
                 binTemp.push(binaryString.splice(0, 1)[0]);
-                binaryString.splice(0, 1)[0];
+                binaryString.splice(0, 1);
             }
             result.push(binTemp);
             if (binaryString.length == 5) result.push(binaryString.splice(0, 5));

@@ -14,7 +14,7 @@
  *         triggered when it reaches the selected element.                  [optional]
  * @param  {function} A function to execute when the event is triggered.    [required]
  */
-!NodeList.prototype.on ? NodeList.prototype.on = function(types, selectors, func) {
+NodeList.prototype.on = function(types, selectors, func) {
     (function(doc) {
         matches = doc.matchesSelector || doc.webkitMatchesSelector || doc.mozMatchesSelector || doc.oMatchesSelector || doc.msMatchesSelector;
     })(document.documentElement);
@@ -84,14 +84,14 @@
             });
         }
     });
-} : console.error('NodeList.prototype.on already defined!');
+};
 /**
  * Description: Remove an event handler.
  * @param  {string} One or more comma separated event types                 [optional]
  * @param  {string} A selector which should match the one originally 
  *         passed to .on() when attaching event handlers.                   [optional]
  */
-!NodeList.prototype.off ? NodeList.prototype.off = function(types, selectors) {
+NodeList.prototype.off = function(types, selectors) {
     types = types ? types.split(',').map(function(s) {
         return s.trim();
     }) : [];
@@ -125,7 +125,7 @@
             }
         }
     });
-} : console.error('NodeList.prototype.off already defined!');
+};
 /**
  * Description: Attach an event handler function for one or more events to the selected elements.
  * @param  {string} One or more comma separated event types                 [required]
@@ -135,15 +135,15 @@
  *         triggered when it reaches the selected element.                  [optional]
  * @param  {function} A function to execute when the event is triggered.    [required]
  */
-!HTMLElement.prototype.on ? HTMLElement.prototype.on = function(types, selectors, func) {
+HTMLElement.prototype.on = function(types, selectors, func) {
     NodeList.prototype.on.call([this], types, selectors, func);
-} : console.error('HTMLElement.prototype.on already defined!');
+};
 /**
  * Description: Remove an event handler.
  * @param  {string} One or more comma separated event types                 [optional]
  * @param  {string} A selector which should match the one originally 
  *         passed to .on() when attaching event handlers.                   [optional]
  */
-!HTMLElement.prototype.off ? HTMLElement.prototype.off = function(types, selectors) {
+HTMLElement.prototype.off = function(types, selectors) {
     NodeList.prototype.off.call([this], types, selectors);
-} : console.error('HTMLElement.prototype.off already defined!');
+};
