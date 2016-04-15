@@ -3,14 +3,13 @@
     var enable = document.getElementById('enable'),
         settings = document.getElementById('settings'),
         viewFinderId = false;
-    chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+
+    function changeStateMessage(request, sender, sendResponse) {
         if (request.order == 'viewFinderClosed') {
             viewFinderId = false;
             changeState(viewFinderId);
         }
-    }, false);
-    enable.addEventListener('click', setState, false);
-    settings.addEventListener('click', openSettings, false);
+    }
 
     function openSettings() {
         var url = chrome.extension.getURL('options.html');
@@ -73,7 +72,8 @@
             'isRunning': st
         }, null);
     }
-    chrome.storage.local.get('isRunning', function(i) {
+
+    function storageLocalGet(i) {
         chrome.windows.getAll(function(wins) {
             var find = wins.find(function(win) {
                 return i.isRunning === win.id;
@@ -81,5 +81,9 @@
             viewFinderId = find ? find.id : false;
             changeState(viewFinderId);
         });
-    });
+    }
+    chrome.extension.onMessage.addListener(changeStateMessage, false);
+    enable.addEventListener('click', setState, false);
+    settings.addEventListener('click', openSettings, false);
+    chrome.storage.local.get('isRunning', storageLocalGet);
 })();

@@ -4,7 +4,7 @@
     "name": "WebCodeCamJS Extension",
     "short_name": "WCCJSEXT",
     "description": "This extension will able to decode qr and barcodes.",
-    "version": "1.1.0",
+    "version": "1.5.0",
     "options_page": "options.html",
     "browser_action": {
         "default_icon": "css/images/icon48-gray.png",

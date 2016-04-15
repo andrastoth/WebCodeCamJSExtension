@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    padding: 0;
     position: absolute;
     text-align: center;
     color: lightslategray;
@@ -90,9 +91,7 @@ table {
     font-size: 12px;
     width: calc(100% - 20px);
     border: #ccc 1px solid;
-    -webkit-border-radius: 3px;
     border-radius: 3px;
-    -webkit-box-shadow: 0 1px 2px #d1d1d1;
     box-shadow: 0 1px 2px #d1d1d1;
 }
 
@@ -101,7 +100,6 @@ table th {
     border-top: 1px solid #fafafa;
     border-bottom: 1px solid #e0e0e0;
     background: #ededed;
-    background: -moz-linear-gradient(top, #ededed, #ebebeb);
     text-shadow: 1px 1px 0px #fff;
     text-align: left;
     padding-left: 20px;
@@ -112,12 +110,10 @@ table tbody th {
 }
 
 table tr:first-child th:first-child {
-    -webkit-border-top-left-radius: 3px;
     border-top-left-radius: 3px;
 }
 
 table tr:first-child th:last-child {
-    -webkit-border-top-right-radius: 3px;
     border-top-right-radius: 3px;
 }
 
@@ -150,7 +146,6 @@ table td {
     white-space: nowrap;
     padding: 18px;
     background: #fafafa;
-    background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
 }
 
 table td input, table td select {
@@ -187,7 +182,6 @@ table tr:last-child td:first-child {
 }
 
 table tr:last-child td:last-child {
-    -webkit-border-bottom-right-radius: 3px;
     border-bottom-right-radius: 3px;
 }
 
@@ -205,7 +199,11 @@ table tbody tr, table tbody tr td, table tbody tr td input, table tbody tr td se
     transition: background-color 0.5s, color 0.5s, transform 0.5s, opacity 0.5s ease;
 }
 
-#settings-table {}
+#settings-table {
+    text-align: center;
+    overflow: auto;
+    width: 100%;
+}
 
 .img-on {
     content: url(images/power-on.png);
@@ -250,7 +248,7 @@ h1 .red-icon {
     width: 100%;
     position: fixed;
     height: 100%;
-    background-color: black;
+    background-color: #272822;
 }
 
 .view-finder-div canvas {
@@ -265,6 +263,7 @@ h1 .red-icon {
     height: 30px;
     width: 30px;
     opacity: 0.5;
+    transition: opacity 0.3s;
 }
 
 .laser-leftTop {
@@ -295,7 +294,7 @@ h1 .red-icon {
     border-right: solid red 5px;
 }
 
-.play, .stop, .pause, .link, .link-active {
+.play, .stop, .pause, .link, .link:active {
     cursor: pointer;
     position: fixed;
     width: 36px;
@@ -322,14 +321,14 @@ h1 .red-icon {
 }
 
 .pause {
-    border: 3px solid orange;
+    border: 3px solid #FD971F;
     left: calc(50% - 70px);
 }
 
 .pause:before {
     width: 6px;
     height: 15px;
-    background: orange;
+    background: #FD971F;
     position: absolute;
     content: "";
     top: 11px;
@@ -339,7 +338,7 @@ h1 .red-icon {
 .pause:after {
     width: 6px;
     height: 15px;
-    background: orange;
+    background: #FD971F;
     position: absolute;
     content: "";
     top: 11px;
@@ -362,27 +361,11 @@ h1 .red-icon {
 }
 
 .link {
-    border: 3px solid gray;
     left: calc(50% + 30px);
+    border: 3px solid #006FFF;
 }
 
 .link:before {
-    width: 15px;
-    height: 15px;
-    background: gray;
-    position: absolute;
-    border-radius: 50%;
-    content: "";
-    top: 11px;
-    left: 11px;
-}
-
-.link-active {
-    border: 3px solid #006FFF;
-    left: calc(50% + 30px);
-}
-
-.link-active:before {
     width: 15px;
     height: 15px;
     background: #006FFF;
@@ -393,9 +376,25 @@ h1 .red-icon {
     left: 11px;
 }
 
+.link:active {
+    left: calc(50% + 30px);
+    border: 3px solid gray;
+}
+
+.link:active:before {
+    width: 15px;
+    height: 15px;
+    background: gray;
+    position: absolute;
+    border-radius: 50%;
+    content: "";
+    top: 11px;
+    left: 11px;
+}
+
 .result-text {
     text-shadow: rgba(0, 0, 0, 0.33) 1px 1px 1px;
-    color: darkorange;
+    color: #FD971F;
     font-size: 18px;
     top: 5px;
     text-align: center;
@@ -406,4 +405,46 @@ h1 .red-icon {
 
 #test-canvas {
     background-color: #272822;
+}
+
+.action-selector {
+    opacity: 0;
+    display: none;
+    background: rgba(0, 0, 0, 0.53);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.3s;
+}
+
+.action-selector div {
+    left: 100%;
+    padding: 5px;
+    background-color: #272822;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity 0.2s, left 0.3s;
+}
+
+.action-selector div input[type="radio"] {
+    display: none;
+}
+
+.action-selector div label {
+    cursor: pointer;
+    color: #FD971F;
+    border: solid #FD971F 2px;
+    border-radius: 5px;
+    margin: 5px;
+    display: inline-block;
+    background-color: transparent;
+    padding: 8px;
+    font-family: Arial;
+    font-size: 14px;
+}
+
+.action-selector div input[type="radio"]:checked + label {
+    background-color: #4B1FFD;
+    color: white;
 }

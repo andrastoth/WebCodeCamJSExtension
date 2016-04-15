@@ -8,11 +8,14 @@ Use WebCodeCamJS on ewery web pages with minimal coding.
 Version
 ----
 
-1.1.0
+1.5.0
 
-- Add new icon to ViewFinder
-	- grey inactive: standard working
-	- blue active: if code is url, open url in new tab
+- Add new functions to ViewFinder
+	- click icon to open result handler options
+		- Inject the code (result function)
+		- Go to URL (if code is url, open url in new tab)
+		- Collect codes and download (download: If the codes are collected, click the icon again)
+
 - Options
     - decode QRCode Rate: min=0 max=15 step=1 default=5/sec
     - decode BarCode Rate: min=0 max=15 step=1 default=3/sec
@@ -24,7 +27,7 @@ Version
     - flip Vertical: min=0 max=1 step=1 default=0 (off)
     - flip Horizontal: min=0 max=1 step=1 default=0 (off)
     - zoom: min=0 max=5 step=0.1 default=0 (auto)
-    - brightness: min=0 max=256 step=1 default=0 (off)
+    - brightness: min=-128 max=128 step=1 default=0 (off)
     - auto Brightness value: min=0 max=256 step=1 default=0 (off)
     - grayScale: min=0 max=1 step=1 default=0 (off)
     - contrast: min=-128 max=128 step=1 default=0 (off)
@@ -38,7 +41,7 @@ Version
 <img src = "wccjs1.JPG" width="100%"/>
 ###### Options (Settings):
 <img src = "wccjs2.JPG" width="100%"/>
-###### Write text to page using ViewFinder:
+###### ViewFinder Options:
 <img src = "wccjs3.JPG" width="100%"/>
 ###### Open link using ViewFinder:
 <img src = "wccjs4.JPG" width="100%"/>

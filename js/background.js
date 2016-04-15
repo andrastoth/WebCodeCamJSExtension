@@ -32,7 +32,8 @@
         width: 320,
         zoom: 0
     };
-    chrome.runtime.onInstalled.addListener(function(object) {
+
+    function onInstalled(object) {
         chrome.storage.local.get('settings', function(i) {
             if (i.settings === undefined) {
                 chrome.storage.local.set({
@@ -55,8 +56,36 @@
                 });
             }
         });
-    }, false);
-    chrome.windows.onRemoved.addListener(function(winID) {
+    }
+
+    function onMessage(request, sender, sendResponse) {
+        if (request.order == 'initViewFinder') {
+            viewFinderWindowID = request.viewFinderWindowID;
+            sendResponse(request);
+        }
+        if (request.order == 'sendResultFromDecoder') {
+            chrome.tabs.query({
+                active: true
+            }, function(tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    order: 'sendResultFromDecoder',
+                    func: request.func,
+                    result: request.result
+                }, null);
+            });
+        }
+        if (request.order == 'openResultInNewWindow') {
+            chrome.tabs.query({
+                active: true
+            }, function(tabs) {
+                chrome.tabs.create({
+                    url: request.result.code
+                });
+            });
+        }
+    }
+
+    function onRemoved(winID) {
         if (viewFinderWindowID === winID) {
             if (decoder) {
                 decoder.stop();
@@ -73,31 +102,8 @@
                 }, null);
             });
         }
-    }, false);
-    chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-        if (request.order == 'initViewFinder') {
-            viewFinderWindowID = request.viewFinderWindowID;
-            sendResponse(request);
-        }
-        if (request.order == 'getResultFromDecoder') {
-            chrome.tabs.query({
-                active: true
-            }, function(tabs) {
-                chrome.tabs.sendMessage(tabs[0].id, {
-                    order: 'getResultFromDecoder',
-                    func: request.func,
-                    result: request.result
-                }, null);
-            });
-        }
-        if (request.order == 'openResultInNewWindow') {
-            chrome.tabs.query({
-                active: true
-            }, function(tabs) {
-                chrome.tabs.create({
-                    url: request.result.code
-                });
-            });
-        }
-    }, false);
+    }
+    chrome.runtime.onInstalled.addListener(onInstalled, false);
+    chrome.windows.onRemoved.addListener(onRemoved, false);
+    chrome.extension.onMessage.addListener(onMessage, false);
 })();
