@@ -8,6 +8,13 @@ Use WebCodeCamJS on ewery web pages with minimal coding.
 Version
 ----
 
+1.6.0
+
+- Some invisible modification
+
+Version
+----
+
 1.5.0
 
 - Add new functions to ViewFinder
