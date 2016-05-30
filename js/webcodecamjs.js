@@ -1,6 +1,5 @@
 /*!
- * WebCodeCamJS 2.2.0 javascript Bar code and QR code decoder 
- * Special Version for WebCodeCamJS Extension
+ * WebCodeCamJS 2.5.0 javascript Bar code and QR code decoder 
  * Author: Tóth András
  * Web: http://atandrastoth.co.uk
  * email: atandrastoth@gmail.com
@@ -10,7 +9,7 @@ var WebCodeCamJS = function(element) {
     'use strict';
     this.Version = {
         name: 'WebCodeCamJS',
-        version: '2.2.0 - special',
+        version: '2.5.0',
         author: 'Tóth András',
     };
     var mediaDevices = window.navigator.mediaDevices;
@@ -22,7 +21,11 @@ var WebCodeCamJS = function(element) {
     HTMLVideoElement.prototype.streamSrc = ('srcObject' in HTMLVideoElement.prototype) ? function(stream) {
         this.srcObject = !!stream ? stream : null;
     } : function(stream) {
-        this.src = !!stream ? (window.URL || window.webkitURL).createObjectURL(stream) : new String();
+        if (!!stream) {
+            this.src = (window.URL || window.webkitURL).createObjectURL(stream);
+        } else {
+            this.removeAttribute('src');
+        }
     };
     var videoSelect, lastImageSrc, con, beepSound, w, h, lastCode;
     var display = Q(element),
@@ -106,23 +109,20 @@ var WebCodeCamJS = function(element) {
             if (!localStream) {
                 init();
             }
-            delayBool = true;
-            video.play();
-            setTimeout(function() {
-                delayBool = false;
-                if (options.decodeBarCodeRate) {
-                    tryParseBarCode();
-                }
-                if (options.decodeQRCodeRate) {
-                    tryParseQRCode();
-                }
-            }, 2E3);
+            const p = video.play();
+            if (p && (typeof Promise !== 'undefined') && (p instanceof Promise)) {
+                p.catch(e => null);
+            }
+            delay();
         }
     }
 
     function stop() {
         delayBool = true;
-        video.pause();
+        const p = video.pause();
+        if (p && (typeof Promise !== 'undefined') && (p instanceof Promise)) {
+            p.catch(e => null);
+        }
         video.streamSrc(null);
         con.clearRect(0, 0, w, h);
         if (localStream) {
@@ -135,7 +135,25 @@ var WebCodeCamJS = function(element) {
 
     function pause() {
         delayBool = true;
-        video.pause();
+        const p = video.pause();
+        if (p && (typeof Promise !== 'undefined') && (p instanceof Promise)) {
+            p.catch(e => null);
+        }
+    }
+
+    function delay() {
+        delayBool = true;
+        if (!localImage) {
+            setTimeout(function() {
+                delayBool = false;
+                if (options.decodeBarCodeRate) {
+                    tryParseBarCode();
+                }
+                if (options.decodeQRCodeRate) {
+                    tryParseQRCode();
+                }
+            }, options.successTimeout);
+        }
     }
 
     function beep() {
@@ -147,7 +165,6 @@ var WebCodeCamJS = function(element) {
     function cameraSuccess(stream) {
         localStream = stream;
         video.streamSrc(stream);
-        video.play();
         options.cameraSuccess(stream);
     }
 
@@ -273,12 +290,6 @@ var WebCodeCamJS = function(element) {
             if (!localImage && !delayBool) {
                 setTimeout(tryParseQRCode, 1E3 / options.decodeQRCodeRate);
             }
-        }
-    }
-
-    function delay() {
-        if (!localImage) {
-            setTimeout(play, options.successTimeout, true);
         }
     }
 
@@ -492,12 +503,13 @@ var WebCodeCamJS = function(element) {
     }
 
     function download(filename, url) {
-        var a = window.document.createElement('a');
-        document.querySelector('body').appendChild(a);
+        var a = window.document.createElement('a'),
+            bd = document.querySelector('body');
+        bd.appendChild(a);
         a.setAttribute('href', url);
         a.setAttribute('download', filename);
         a.click();
-        document.querySelector('body').removeChild(a);
+        bd.removeChild(a);
     }
 
     function mergeRecursive(target, source) {
